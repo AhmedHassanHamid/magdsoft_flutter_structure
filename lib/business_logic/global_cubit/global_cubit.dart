@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:magdsoft_flutter_structure/data/models/account_model.dart';
 import 'package:magdsoft_flutter_structure/data/network/responses/login_response.dart';
 import 'package:magdsoft_flutter_structure/data/remote/dio_helper.dart';
 
 part 'global_state.dart';
 
-class GlobalCubit extends Cubit<GlobalState> {
-  GlobalCubit() : super(GlobalInitial());
+class GlobalCubit extends Cubit<List<AccountModel>> {
+  GlobalCubit() : super([]);
 
   LoginResponse? loginResponse;
 
   static GlobalCubit get(context) => BlocProvider.of(context);
-  
+
   Future userLogin({
     required String? email,
     required String? password,
@@ -23,8 +24,8 @@ class GlobalCubit extends Cubit<GlobalState> {
     }).then((value) {
       final myData = Map<String, dynamic>.from(value.data);
       loginResponse = LoginResponse.fromJson(myData);
-      print(value);
+      print(loginResponse!.account!);
     });
-    return loginResponse!.user;
+    return loginResponse!.account;
   }
 }

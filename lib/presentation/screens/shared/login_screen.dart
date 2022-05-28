@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:magdsoft_flutter_structure/business_logic/global_cubit/global_cubit.dart';
 import 'package:magdsoft_flutter_structure/constants/end_points.dart';
+import 'package:magdsoft_flutter_structure/data/models/account_model.dart';
+import 'package:magdsoft_flutter_structure/data/network/requests/login_request.dart';
+import 'package:magdsoft_flutter_structure/data/network/responses/login_response.dart';
 import 'package:magdsoft_flutter_structure/presentation/screens/shared/register_screen.dart';
+import 'package:magdsoft_flutter_structure/presentation/screens/user/user_profile.dart';
 import 'package:magdsoft_flutter_structure/presentation/styles/colors.dart';
 import 'package:magdsoft_flutter_structure/presentation/widget/default_button.dart';
 import 'package:magdsoft_flutter_structure/presentation/widget/password_text_form_filed.dart';
@@ -15,6 +20,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   TextEditingController email = TextEditingController();
   TextEditingController passwordC = TextEditingController();
+  LoginResponse? loginResponse;
   bool pass = true;
 
   show() {
@@ -107,28 +113,38 @@ class _LoginScreenState extends State<LoginScreen> {
                                   textColor: AppColor.white,
                                 ),
                                 Spacer(),
-                                DefaultAppButton(
-                                  text: 'Login',
-                                  backGround: AppColor.DarkBlue,
-                                  fontSize: 20,
-                                  height: 60,
-                                  onTap: () {
-                                    email.text == '' && passwordC.text == ''
-                                        ? print(
-                                            'enter your email and your password')
-                                        : GlobalCubit.get(context).userLogin(
-                                                email: email.text,
-                                                password: passwordC.text,
-                                                endPoint: LOGIN).then((value){ Navigator.of(context)
-                                                            .pushReplacementNamed('/userData',arguments:{
-                                                              'namme' : GlobalCubit.get(context).loginResponse!.user,
-                                                            } );
-                                                            
-                                                            });
-                                                
+                                BlocConsumer<GlobalCubit, List<AccountModel>>(
+                                  listener: (context, state) {
+                                    // TODO: implement listener
                                   },
-                                  width: 150,
-                                  textColor: AppColor.white,
+                                  builder: (context, state) {
+                                    return DefaultAppButton(
+                                      text: 'Login',
+                                      backGround: AppColor.DarkBlue,
+                                      fontSize: 20,
+                                      height: 60,
+                                      onTap: () {
+                                        email.text == '' && passwordC.text == ''
+                                            ? print(
+                                                'enter your email and your password')
+                                            : GlobalCubit.get(context).userLogin(
+                                                    email: email.text,
+                                                    password: passwordC.text,
+                                                    endPoint: LOGIN)
+                                                .then((value) {
+                                                Navigator.of(context)
+                                                    .pushReplacementNamed(
+                                                        '/userData',
+                                                        arguments: {
+                                                      'name': GlobalCubit.get(context).loginResponse!.account!.name,
+                                                    }
+                                                        );
+                                              });
+                                      },
+                                      width: 150,
+                                      textColor: AppColor.white,
+                                    );
+                                  },
                                 ),
                               ],
                             ),

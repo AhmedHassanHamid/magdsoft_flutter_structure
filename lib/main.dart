@@ -7,6 +7,7 @@ import 'package:flutter_translate/flutter_translate.dart';
 import 'package:magdsoft_flutter_structure/business_logic/bloc_observer.dart';
 import 'package:magdsoft_flutter_structure/business_logic/global_cubit/global_cubit.dart';
 import 'package:magdsoft_flutter_structure/data/local/cache_helper.dart';
+import 'package:magdsoft_flutter_structure/data/models/account_model.dart';
 import 'package:magdsoft_flutter_structure/data/remote/dio_helper.dart';
 import 'package:magdsoft_flutter_structure/presentation/router/app_router.dart';
 import 'package:magdsoft_flutter_structure/presentation/widget/toast.dart';
@@ -74,7 +75,7 @@ class _MyAppState extends State<MyApp> {
           create: ((context) => GlobalCubit()),
         ),
       ],
-      child: BlocConsumer<GlobalCubit, GlobalState>(
+      child: BlocConsumer<GlobalCubit, List<AccountModel>>(
         listener: (context, state) {},
         builder: (context, state) {
           return Sizer(

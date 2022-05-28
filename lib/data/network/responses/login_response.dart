@@ -4,25 +4,25 @@ class LoginResponse {
   LoginResponse({
     this.status,
     this.message,
-    this.user,
+    this.account,
   });
 
   int? status;
   String? message;
-  List<AccountModel>? user;
+  List<AccountModel>? account;
 
   factory LoginResponse.fromJson(Map<String, dynamic> json) => LoginResponse(
         status: json["status"],
         message: json["message"],
-        user: json["user"] != null
+        account: json["account"] != null
             ? List<AccountModel>.from(
-                json["user"].map((x) => AccountModel.fromJson(x)))
-            : json["user"],
+                json["account"].map((x) => AccountModel.fromJson(x)))
+            : json["account"],
       );
 
   Map<String, dynamic> toJson() => {
         "status": status,
         "message": message,
-        "user": List<dynamic>.from(user!.map((x) => x.toJson())),
+        "account": List<dynamic>.from(account!.map((x) => x.toJson())),
       };
 }

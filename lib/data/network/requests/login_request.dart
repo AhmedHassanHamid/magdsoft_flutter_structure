@@ -1,3 +1,4 @@
+import 'package:magdsoft_flutter_structure/constants/end_points.dart';
 import 'package:magdsoft_flutter_structure/data/network/responses/login_response.dart';
 import 'package:magdsoft_flutter_structure/data/remote/dio_helper.dart';
 
@@ -20,3 +21,23 @@ Future userLogin({
 }
 
 
+Future userRegister({
+    required String? name,
+    required String? email,
+    required String? password,
+    required String? phone,
+  }) async {
+    await DioHelper.postData(url: register, body: {
+      'name' : name,
+      'email': email,
+      'password': password,
+      'phone' : phone,
+    }).then((value) {
+      print(value.data);
+      final myData = Map<String, dynamic>.from(value.data);
+      loginResponse = LoginResponse.fromJson(myData);
+    }).catchError((error) {
+      print(error.toString());
+    });
+
+  }

@@ -1,4 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:magdsoft_flutter_structure/business_logic/global_cubit/global_cubit.dart';
+import 'package:magdsoft_flutter_structure/constants/end_points.dart';
+import 'package:magdsoft_flutter_structure/data/models/account_model.dart';
+import 'package:magdsoft_flutter_structure/data/network/requests/login_request.dart';
+import 'package:magdsoft_flutter_structure/data/network/responses/login_response.dart';
+import 'package:magdsoft_flutter_structure/data/remote/dio_helper.dart';
 import 'package:magdsoft_flutter_structure/presentation/styles/colors.dart';
 import 'package:magdsoft_flutter_structure/presentation/widget/default_button.dart';
 import 'package:magdsoft_flutter_structure/presentation/widget/password_text_form_filed.dart';
@@ -11,10 +18,19 @@ class RegisterScreen extends StatefulWidget {
 
 class _RegisterScreenState extends State<RegisterScreen> {
   TextEditingController email = TextEditingController();
-  TextEditingController passwordC = TextEditingController();
+  TextEditingController password = TextEditingController();
   TextEditingController name = TextEditingController();
   TextEditingController phone = TextEditingController();
-  bool password = false;
+  bool pass = true;
+
+  LoginResponse? loginResponse;
+
+  show() {
+    setState(() {
+      pass = !pass;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,13 +75,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 controller: name, hintText: 'Full Name'),
                             DefaultTextField(
                                 controller: email, hintText: 'Email'),
-                                DefaultTextField(
+                            DefaultTextField(
                                 controller: phone, hintText: 'Phone'),
                             DefaultPasswordField(
-                              controller: passwordC,
+                              controller: password,
                               hintText: 'Password',
-                              password: password,
-                              icon: Icon(Icons.visibility_off),
+                              password: pass,
+                              icon: IconButton(
+                                icon: Icon(
+                                  pass
+                                      ? Icons.visibility_off
+                                      : Icons.visibility,
+                                ),
+                                onPressed: show,
+                              ),
                             ),
                             SizedBox(height: 65),
                             Row(
@@ -75,7 +98,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   backGround: AppColor.DarkBlue,
                                   fontSize: 20,
                                   height: 60,
-                                  onTap: () {},
+                                  onTap: () {
+                                    userRegister(
+                                      name: name.text,
+                                      email: email.text,
+                                      password: password.text,
+                                      phone: phone.text,
+                                    );
+                                  },
                                   width: 150,
                                   textColor: AppColor.white,
                                 ),
@@ -85,7 +115,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   backGround: AppColor.DarkBlue,
                                   fontSize: 20,
                                   height: 60,
-                                  onTap: () {},
+                                  onTap: () {
+                                    Navigator.of(context).pushReplacementNamed(
+                                      '/',
+                                    );
+                                  },
                                   width: 150,
                                   textColor: AppColor.white,
                                 ),

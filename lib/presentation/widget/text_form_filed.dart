@@ -44,7 +44,7 @@ class DefaultTextField extends StatelessWidget {
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10.0),
             borderSide: const BorderSide(
-              color: AppColor.transparent,
+              color: AppColor.black,
             ),
           ),
           enabledBorder: OutlineInputBorder(
@@ -56,7 +56,7 @@ class DefaultTextField extends StatelessWidget {
           disabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10.0),
             borderSide: const BorderSide(
-              color: AppColor.black,
+              color: AppColor.transparent,
             ),
           ),
         ),

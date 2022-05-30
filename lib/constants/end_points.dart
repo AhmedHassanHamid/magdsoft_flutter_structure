@@ -1,3 +1,5 @@
 const String baseURL = "https://magdsoft-internship.herokuapp.com/api/";
 
-const String LOGIN = 'login';
+const String login = "login";
+
+const String register = "register";
